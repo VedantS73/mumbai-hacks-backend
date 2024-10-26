@@ -22,7 +22,7 @@ def extract_text_from_image(image):
         print(f"Text extraction error: {str(e)}")
         return ""
 
-def create_personalized_prompt(product_info, persona, extracted_text):
+def create_personalized_prompt(product_title, product_description, persona, extracted_text):
     occupation = persona.get('occupation', 'customer')
     language = persona.get('language', 'English')
 
@@ -85,7 +85,9 @@ def create_personalized_prompt(product_info, persona, extracted_text):
 
 
     base_prompt = f"""
-    Product Context: {product_info}
+    # Product Context: {product_info}
+    Product Title: {product_title}
+    Product Description: {product_description}
     Image Details: {extracted_text}
 
     Target Audience Profile:
@@ -118,7 +120,9 @@ def generate_captions():
         extracted_text = extract_text_from_image(img)
 
         data = request.form.to_dict()
-        product_info = data.get('product_info')
+        # product_info = data.get('product_info')
+        product_title = data.get('product_title')
+        product_description = data.get('product_description')
 
         # Collect personas dynamically by parsing JSON data in person fields
         personas = []
